@@ -125,8 +125,6 @@ void offsets(){
 
   TCanvas* c1= new TCanvas("c1","c1",800,500,500,500);
   TCanvas* c2= new TCanvas("c2","c2",0,000,1400,1000);
-  TCanvas* c3= new TCanvas("c3","c3",0,000,1400,1000);
-  TCanvas* c4= new TCanvas("c4","c4",0,000,1400,1000);
 
   std::stringstream sss;
 
@@ -161,7 +159,6 @@ void offsets(){
   int ifile=-1;
   int index=-1;
   int iset=0;
-  int nsensor=1;
 
   //Horizontal lines to be drawn
   const int nlh_sensor = 3;
@@ -212,23 +209,7 @@ void offsets(){
       c->Update();
       c1->Update();
       c2->Update();
-
-      for(int k = 0; k < 3; k++){
-      c3->cd();
-      Double_t Mean = ha[iset][k]->GetMean(); 
-      hb->SetBinContent(nsensor+k,Mean);
-      hb->Draw("e1 same");
-      c4->cd();
-      Double_t RMS = ha[iset][k]->GetRMS();
-      //cout << nsensor + k << "-" << Mean << "-" << RMS << endl;
-      hc->SetBinContent(nsensor+k,RMS);
-      hc->Draw("e1 same");
-      }
-
-      nsensor = nsensor+3;
-      c3->Update();
-      c4->Update();
-            
+      
       iset++;
       gPad->WaitPrimitive();
       index = -1; 
@@ -250,27 +231,19 @@ void offsets(){
     std::string sfilename = string(file_name);
     std::string sfilename_rest = sfilename;
     
-    /*for(int j = 0; j < 4; j++){
-      int loc = sfilename_rest.find("_3");
-      int lec = sfilename_rest.find("_40");
-      
-      if(lec != -1){	
-	sensor[j] = sfilename_rest.substr(lec+1, 5).c_str();
-        sfilename_rest = sfilename_rest.substr(lec+1, 50).c_str();
-      }
-      
-      else{
-	sensor[j] = sfilename_rest.substr(loc+1, 5).c_str();
-        sfilename_rest = sfilename_rest.substr(loc+1, 50).c_str();
-      }
+    for(int j = 0; j < 4; j++){
+      sensor[j] = sfilename_rest.substr(sfilename_rest.find("_s")+2,5).c_str();
+      sfilename_rest = sfilename_rest.substr(sfilename_rest.find("_s")+2,sfilename_rest.size()-1).c_str();
     }
-    std::string sensor_ref=sensor[2];
-    sensor[2]=sensor[3];
-    sensor[3]=sensor_ref;
-
-    int loc = sfilename.find("_amux");
-    date = sfilename.substr(loc-6,6).c_str();
     
+    std::string sensor_ref=sensor[3];
+    //sensor[2]=sensor[3];
+    //sensor[3]=sensor_ref;
+
+    date = sfilename.substr(sfilename.find("2020"),10).c_str();
+    
+    std::cout << ifile << " " << iset << " " << index << " " << file_name << " " << date << " "  << sensor[0] << " " << sensor[1] << " " << sensor[2] << std::endl;
+
     for (int j=0;j<3;j++){
       h[j]->SetTitle(sensor[j].c_str());
       h[j]->SetTitleOffset(1.4,"Y");
@@ -281,9 +254,6 @@ void offsets(){
       h[j]->SetYTitle("#it{Offset} (K)");
     }
     
-    std::cout << ifile << " " << iset << " " << index << " " << file_name << " " << date << " "  << sensor[0] << " " << sensor[1] << " " << sensor[2] << std::endl;
-    */
-
     file[ifile] = file_temp;
 
     if (index==0){
