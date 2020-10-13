@@ -1,3 +1,7 @@
+//sensor order in capsule
+std::string sensor[4]={"1","2","3","0"};  // ref is the last
+//std::string sensor[4]={"2","0","3","1"};  // ref is the last
+
 //*************************************************************
 void process_file(TFile* _file1, int index, int global_index,
                   TCanvas* c, TCanvas* c1,TCanvas* c2,
@@ -16,15 +20,7 @@ void process_file(TFile* _file1, int index, int global_index,
   c1->SetGridy();
   c2->SetGridy();
   
-  double range = 1;
-
-  //sensor order in capsule
-  std::string sensor[4]={"0","1","2","3"};  // ref is the last
-  //std::string sensor[4]={"2","3","1","0"};  // ref is the last
-  //std::string sensor[4]={"2","0","3","1"};  // ref is the last
-
   int color[3]={1,2,4};
-
 
   std::stringstream sdmax;
   sdmax<< dmax;
@@ -217,7 +213,6 @@ void offsets(){
 
     }
 
-
     if (file_name[0] == '/' && file_name[1] == '/')continue;
     
     // open the root file
@@ -236,9 +231,11 @@ void offsets(){
       sfilename_rest = sfilename_rest.substr(sfilename_rest.find("_s")+2,sfilename_rest.size()-1).c_str();
     }
     
-    std::string sensor_ref=sensor[3];
-    //sensor[2]=sensor[3];
-    //sensor[3]=sensor_ref;
+    std::string sensor_ref=sensor[0];
+    sensor[0]=sensor[1];
+    sensor[1]=sensor[2];
+    sensor[2]=sensor[3];
+    sensor[3]=sensor_ref;
 
     date = sfilename.substr(sfilename.find("2020"),10).c_str();
     
