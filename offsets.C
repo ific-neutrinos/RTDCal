@@ -35,7 +35,7 @@ void process_file(TFile* _file1, int index, int global_index,
     c1->cd();
     std::stringstream sss;
     sss << j;
-    temps->Draw(("(temp["+sensor[j]+"]-temp["+sensor[3]+"])*1000>>hhm"+sss.str()).c_str(),("abs(temp["+sensor[j]+"]-temp["+sensor[3]+"])<"+sdmax.str()+" && time0>1000 && time0<1500").c_str());
+    temps->Draw(("(temp["+sensor[j]+"]-temp["+sensor[3]+"])*1000>>hhm"+sss.str()).c_str(),("abs(temp["+sensor[j]+"]-temp["+sensor[3]+"])<"+sdmax.str()+" && time0>1000 && time0<2000").c_str());
     if (j==0) hhh[0] = (TH1F*)gPad->GetPrimitive(("hhm"+sss.str()).c_str());
     if (j==1) hhh[1] = (TH1F*)gPad->GetPrimitive(("hhm"+sss.str()).c_str());
     if (j==2) hhh[2] = (TH1F*)gPad->GetPrimitive(("hhm"+sss.str()).c_str());
